@@ -1,22 +1,21 @@
-# Nome dell'immagine (usato come nome del pacchetto)
+
 name: origami-os
 
-# Descrizione della tua distro
 description: Un sistema operativo immutabile, modulare e dal design pulito basato su Universal Blue.
 
-# L'immagine base da cui ereditare tutto (es. fedora-silverblue per GNOME, fedora-kinoite per KDE)
-base-image: ghcr.io/ublue-os/fedora-silverblue
-image-version: 44 # Puoi mettere la versione stabile corrente di Fedora
 
-# I blocchi che compongono e personalizzano la tua distro
+base-image: ghcr.io/ublue-os/fedora-silverblue
+image-version: 44 
+
+
 modules:
   - type: files
     files:
-      - usr: /usr # Serve per inserire configurazioni personalizzate nella cartella /usr
+      - usr: /usr 
 
   - type: rpm-ostree
     install:
-      - fastfetch # Fantastico per fare screenshot del terminale con le info di sistema
+      - fastfetch 
       - git
       - curl
       - tmux
