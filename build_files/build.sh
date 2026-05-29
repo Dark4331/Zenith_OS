@@ -11,6 +11,21 @@ set -ouex pipefail
 
 # this installs a package from fedora repos
 dnf5 install -y tmux 
+dnf install -y fastfetch git curl tmux
+
+mkdir -p /usr/share/backgrounds/zenith
+cp /ctx/default.jpg /usr/share/backgrounds/zenith/default.jpg
+
+# Forza lo sfondo Zenith OS per tutti gli utenti
+mkdir -p /usr/share/glib-2.0/schemas
+cat <<EOF > /usr/share/glib-2.0/schemas/10_zenith_background.gschema.override
+[org.gnome.desktop.background]
+picture-uri='file:///usr/share/backgrounds/zenith/default.jpg'
+picture-uri-dark='file:///usr/share/backgrounds/zenith/default.jpg'
+EOF
+
+# Compila i nuovi schemi di GNOME
+glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 # Use a COPR Example:
 #
