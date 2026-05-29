@@ -1,12 +1,9 @@
 
-name: origami-os
-
-description: Un sistema operativo immutabile, modulare e dal design pulito basato su Universal Blue.
-
+name: zenith-os
+description: Il punto più alto dell'esperienza Linux. Un sistema operativo immutabile e minimale.
 
 base-image: ghcr.io/ublue-os/fedora-silverblue
 image-version: 44 
-
 
 modules:
   - type: files
@@ -25,10 +22,17 @@ modules:
     install:
       - org.mozilla.firefox
 
-- type: gsettings
+  - type: gsettings
     profile: user
     schemas:
       - schema: org.gnome.desktop.background
         keys:
-          picture-uri: "'file:///usr/share/backgrounds/origami/default.jpg'"
-          picture-uri-dark: "'file:///usr/share/backgrounds/origami/default.jpg'"
+          picture-uri: "'file:///usr/share/backgrounds/zenith/default.jpg'"
+          picture-uri-dark: "'file:///usr/share/backgrounds/zenith/default.jpg'"
+
+  # Questo script cambia il nome nel Bootloader (Menu GRUB) all'avvio del PC
+  - type: script
+    snippets:
+      - |
+        echo "Personalizzazione del Bootloader per Zenith OS..."
+        sed -i 's/Fedora/'"Zenith OS"'/g' /usr/share/anaconda/boot/grub.cfg 2>/dev/null || true
