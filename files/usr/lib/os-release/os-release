@@ -1,0 +1,13 @@
+NAME="Zenith OS"
+VERSION="44"
+ID=zenith-os
+ID_LIKE="fedora"
+PRETTY_NAME="Zenith OS"
+ANSI_COLOR="0;34"
+HOME_URL="https://github.com/tuo-username/tuo-repo"
+SUPPORT_URL="https://github.com/tuo-username/tuo-repo/issues"
+BUG_REPORT_URL="https://github.com/tuo-username/tuo-repo/issues"
+PRIVACY_POLICY_URL="https://fedoraproject.org/wiki/Legal:PrivacyPolicy"
+LOG_COLOR="0;38;5;98"
+VARIANT="Silverblue"
+VARIANT_ID=silverblue
