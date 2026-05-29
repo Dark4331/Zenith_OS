@@ -24,3 +24,11 @@ modules:
     notify: true
     install:
       - org.mozilla.firefox
+
+- type: gsettings
+    profile: user
+    schemas:
+      - schema: org.gnome.desktop.background
+        keys:
+          picture-uri: "'file:///usr/share/backgrounds/origami/default.jpg'"
+          picture-uri-dark: "'file:///usr/share/backgrounds/origami/default.jpg'"
