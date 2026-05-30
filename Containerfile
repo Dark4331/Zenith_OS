@@ -5,15 +5,19 @@ COPY build_files /
 # Base Image
 FROM registry.gitlab.com/origami-linux/images/origami-nvidia:latest
 
-# Modifiche estetiche del nome
-RUN sed -i 's/^NAME=.*/NAME="Zenith OS"/' /usr/lib/os-release
-RUN sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zenith OS"/' /usr/lib/os-release
+# Modifichiamo sul posto il nome estetico e l'ID della distribuzione
+RUN sed -i 's/^NAME=.*/NAME="Zenith OS"/' /usr/lib/os-release && \
+    sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zenith OS"/' /usr/lib/os-release && \
+    sed -i 's/^ID=.*/ID=fedora/' /usr/lib/os-release
 
-# Puliamo e forziamo i metadati richiesti da bootc-image-builder
-RUN sed -i '/^ID=/d' /usr/lib/os-release && echo 'ID=fedora' >> /usr/lib/os-release
-RUN sed -i '/^VARIANT_ID=/d' /usr/lib/os-release && echo 'VARIANT_ID=bootc' >> /usr/lib/os-release
+# Controlliamo VARIANT_ID: se esiste lo sovrascriviamo, altrimenti lo aggiungiamo preceduto da una riga vuota di sicurezza
+RUN if grep -q '^VARIANT_ID=' /usr/lib/os-release; then \
+        sed -i 's/^VARIANT_ID=.*/VARIANT_ID=bootc/' /usr/lib/os-release; \
+    else \
+        echo '' >> /usr/lib/os-release && echo 'VARIANT_ID=bootc' >> /usr/lib/os-release; \
+    fi
 
-# Ricreiamo il link simbolico corretto
+# Ripristiniamo il collegamento corretto per il sistema
 RUN ln -sf ../usr/lib/os-release /etc/os-release
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
