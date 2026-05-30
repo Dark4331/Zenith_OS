@@ -11,6 +11,8 @@ RUN echo 'NAME="Zenith OS"' > /etc/os-release && \
     echo 'VARIANT="Silverblue"' >> /etc/os-release && \
     echo 'VARIANT_ID=silverblue' >> /etc/os-release && \
     echo 'VERSION_ID=41' >> /etc/os-release
+    ln -sf ../usr/lib/os-release /etc/os-release
+    
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
