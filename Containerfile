@@ -4,10 +4,9 @@ COPY build_files /
 
 # Base Image
 FROM registry.gitlab.com/origami-linux/images/origami-nvidia:latest
-RUN sed -i 's/^NAME=.*/NAME="Zenith OS"/' /usr/lib/os-release && \
-    sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zenith OS"/' /usr/lib/os-release && \
 
-
+RUN sed -i 's/^NAME=.*/NAME="Zenith OS"/' /usr/lib/os-release
+RUN sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zenith OS"/' /usr/lib/os-release
 RUN ln -sf ../usr/lib/os-release /etc/os-release
 
 ## Other possible base images include:
