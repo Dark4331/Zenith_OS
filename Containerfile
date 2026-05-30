@@ -4,13 +4,13 @@ COPY build_files /
 
 # Base Image
 FROM registry.gitlab.com/origami-linux/images/origami-nvidia:latest
-RUN echo 'NAME="Zenith OS"' > /etc/os-release && \
-    echo 'PRETTY_NAME="Zenith OS"' >> /etc/os-release && \
-    echo 'ID=fedora' >> /etc/os-release && \
-    echo 'ID_LIKE="fedora"' >> /etc/os-release && \
-    echo 'VARIANT="Silverblue"' >> /etc/os-release && \
-    echo 'VARIANT_ID=silverblue' >> /etc/os-release && \
-    echo 'VERSION_ID=41' >> /etc/os-release
+RUN sed -i 's/^NAME=.*/NAME="Zenith OS"/' /usr/lib/os-release && \
+    sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zenith OS"/' /usr/lib/os-release && \
+    echo 'ID=fedora' >> /usr/lib/os-release && \
+    echo 'ID_LIKE="fedora"' >> /usr/lib/os-release && \
+    echo 'VARIANT="Silverblue"' >> /usr/lib/os-release && \
+    echo 'VARIANT_ID=silverblue' >> /usr/lib/os-release && \
+    echo 'VERSION_ID=41' >> /usr/lib/os-release
 
 RUN ln -sf ../usr/lib/os-release /etc/os-release
 
