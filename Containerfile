@@ -6,11 +6,7 @@ COPY build_files /
 FROM registry.gitlab.com/origami-linux/images/origami-nvidia:latest
 RUN sed -i 's/^NAME=.*/NAME="Zenith OS"/' /usr/lib/os-release && \
     sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zenith OS"/' /usr/lib/os-release && \
-    echo 'ID=fedora' >> /usr/lib/os-release && \
-    echo 'ID_LIKE="fedora"' >> /usr/lib/os-release && \
-    echo 'VARIANT="Silverblue"' >> /usr/lib/os-release && \
-    echo 'VARIANT_ID=silverblue' >> /usr/lib/os-release && \
-    echo 'VERSION_ID=41' >> /usr/lib/os-release
+
 
 RUN ln -sf ../usr/lib/os-release /etc/os-release
 
