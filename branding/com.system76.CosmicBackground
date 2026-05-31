@@ -1,0 +1,9 @@
+(
+    backgrounds: [
+        (
+            output: "all",
+            source: Path("/usr/share/backgrounds/zenith_os/default-wallpaper.png"),
+            mode: Zoom,
+        ),
+    ],
+)
