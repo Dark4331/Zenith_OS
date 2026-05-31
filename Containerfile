@@ -59,3 +59,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
+
+COPY branding/watermark.png /usr/share/plymouth/themes/spinner/watermark.png
+
+RUN plymouth-set-default-theme spinner
+
+RUN dracut --regenerate-all --force
+
