@@ -61,17 +61,14 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN bootc container lint
 
 COPY branding/watermark.png /usr/share/plymouth/themes/spinner/watermark.png
-
 RUN plymouth-set-default-theme spinner
-
 RUN dracut --regenerate-all --force
 
+# Copia lo sfondo e applica la configurazione globale di COSMIC
 RUN mkdir -p /usr/share/backgrounds/zenith_os
 COPY branding/default-wallpaper.png /usr/share/backgrounds/zenith_os/default-wallpaper.png
 
-COPY branding/00_zenith_os_branding.gschema.override /usr/share/glib-2.0/schemas/00_zenith_os_bra
-
-RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
-
+RUN mkdir -p /etc/cosmic
+COPY branding/com.system76.CosmicBackground /etc/cosmic/com.system76.CosmicBackground
 
 
