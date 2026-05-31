@@ -66,3 +66,12 @@ RUN plymouth-set-default-theme spinner
 
 RUN dracut --regenerate-all --force
 
+RUN mkdir -p /usr/share/backgrounds/zenith_os
+COPY branding/default-wallpaper.png /usr/share/backgrounds/zenith_os/default-wallpaper.png
+
+COPY branding/00_zenith_os_branding.gschema.override /usr/share/glib-2.0/schemas/00_zenith_os_bra
+
+RUN glib-compile-schemas /usr/share/glib-2.0/schemas/
+
+
+
