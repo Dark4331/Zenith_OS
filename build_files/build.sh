@@ -3,9 +3,11 @@
 set -ouex pipefail
 
 ### Install packages
+# Installazione pulita e sicura di tutti i pacchetti di Zenith OS e dell'ambiente Niri
+dnf install -y fastfetch git curl tmux niri hyprpaper waybar fuzzel mako foot
 
-# Installazione pulita e sicura di tutti i pacchetti di Zenith OS in un colpo solo
-dnf install -y fastfetch git curl tmux
+#### Abilita i servizi di sistema necessari
+systemctl enable podman.socket
 
 # Configurazione dello sfondo personalizzato
 mkdir -p /usr/share/backgrounds/zenith
