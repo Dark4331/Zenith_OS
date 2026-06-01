@@ -59,3 +59,21 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
+
+RUN dnf install -y niri swww waybar fuzzel mako foot
+
+COPY branding/watermark.png /usr/share/plymouth/themes/spinner/watermark.png
+RUN cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/animation.png || true
+RUN cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/background.png || true
+RUN plymouth-set-default-theme spinner
+RUN dracut --regenerate-all --force
+
+RUN mkdir -p /usr/share/backgrounds/zenith_os
+COPY branding/default-wallpaper.png /usr/share/backgrounds/zenith_os/default-wallpaper.png
+
+RUN mkdir -p /etc/skel/.config/niri
+COPY branding/config.kdl /etc/skel/.config/niri/config.kdl
+
+RUN mkdir -p /etc/fastfetch
+COPY branding/zenith_ascii.txt /etc/fastfetch/zenith_ascii.txt
+COPY branding/config.jsonc /etc/fastfetch/config.jsonc
