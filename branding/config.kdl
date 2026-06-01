@@ -1,4 +1,31 @@
-// Configurazione minimale Zenith OS per Niri
+// Configurazione minimale Zenith OS per Niri Window Manager
+input {
+    keyboard {
+        xkb {
+            layout "it" // Tastiera italiana di default
+        }
+    }
+}
+
+// L'autostart 
+spawn-on-startup "swww-daemon"
+spawn-on-startup "swww" "img" "/usr/share/backgrounds/zenith_os/default-wallpaper.png"
+spawn-on-startup "waybar"
+spawn-on-startup "mako"
+
+// Scorciatoie da tastiera 
+    // Tasto Super + Invio per aprire  terminale  "foot"
+    Mod+Return { spawn "foot"; }
+    
+    // Tasto Super + D per aprire  menu  ricerca
+    Mod+D { spawn "fuzzel"; }
+    
+    // Tasto Super + Q per chiudere finestra corrente
+    Mod+Q { close-window; }
+    
+    // Tasto Super + Shift + E  uscire dal sistema
+    Mod+Shift+E { quit; }
+}// Configurazione minimale Zenith OS per Niri
 input {
     keyboard {
         xkb {
@@ -7,23 +34,23 @@ input {
     }
 }
 
-// Autostart dei servizi grafici
+// Autostart  servizi grafici
 spawn-on-startup "swww-daemon"
 spawn-on-startup "swww" "img" "/usr/share/backgrounds/zenith_os/default-wallpaper.png"
 spawn-on-startup "waybar"
 spawn-on-startup "mako"
 
-// Scorciatoie fondamentali
+// Scorciatoie 
 binds {
-    // Super + Enter apre il terminale (foot è leggerissimo e ottimo su Wayland)
+    // Super + Enter apre il terminale 
     Mod+Return { spawn "foot"; }
     
-    // Super + D apre il launcher delle applicazioni
+    // Super + D apre il launcher  applicazioni
     Mod+D { spawn "fuzzel"; }
     
-    // Super + Q chiude la finestra attiva
+    // Super + Q chiude  finestra attiva
     Mod+Q { close-window; }
     
-    // Super + Shift + E per fare il logout
+    // Super + Shift + E per logout
     Mod+Shift+E { quit; }
 }
