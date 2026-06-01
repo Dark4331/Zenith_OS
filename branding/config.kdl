@@ -9,7 +9,7 @@ input {
 
 // L'autostart 
 spawn-on-startup "swww-daemon"
-spawn-on-startup "swww" "img" "/usr/share/backgrounds/zenith_os/default-wallpaper.png"
+spawn-at-startup "swaybg" "-i" "/usr/share/backgrounds/zenith_os/default-wallpaper.png" "-m" "fill"
 spawn-on-startup "waybar"
 spawn-on-startup "mako"
 
