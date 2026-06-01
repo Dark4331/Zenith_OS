@@ -2,25 +2,23 @@
 
 set -ouex pipefail
 
-### Install packages
+### 1. Installazione pacchetti di Zenith OS + Ambiente Niri (Wayland)
 
-# Installazione pulita e sicura di tutti i pacchetti di Zenith OS in un colpo solo
-dnf install -y fastfetch git curl tmux
+dnf install -y fastfetch git curl tmux niri swww waybar fuzzel mako foot
 
-# Configurazione dello sfondo personalizzato
+### 2. Preparazione cartella per lo Sfondo Nativo di Zenith OS
 mkdir -p /usr/share/backgrounds/zenith
-cp /ctx/default.jpg /usr/share/backgrounds/zenith/default.jpg
+if [ -f /ctx/default.jpg ]; then
+    cp /ctx/default.jpg /usr/share/backgrounds/zenith/default.jpg
+fi
 
-# Forza lo sfondo Zenith OS per tutti gli utenti (Dark e Light mode)
-mkdir -p /usr/share/glib-2.0/schemas
-cat <<EOF > /usr/share/glib-2.0/schemas/10_zenith_background.gschema.override
-[org.gnome.desktop.background]
-picture-uri='file:///usr/share/backgrounds/zenith/default.jpg'
-picture-uri-dark='file:///usr/share/backgrounds/zenith/default.jpg'
-EOF
 
-# Compila i nuovi schemi di GNOME
-glib-compile-schemas /usr/share/glib-2.0/schemas/
+PLYMOUTH_DIR="/usr/share/plymouth/themes/spinner"
+if [ -d "$PLYMOUTH_DIR" ]; then
+   
+    cp "$PLYMOUTH_DIR/watermark.png" "$PLYMOUTH_DIR/logo.png" || true
+    cp "$PLYMOUTH_DIR/watermark.png" "$PLYMOUTH_DIR/bgrt-fallback.png" || true
+fi
 
-#### Example for enabling a System Unit File
+#### Abilitazione servizi di sistema indispensabili
 systemctl enable podman.socket
