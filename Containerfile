@@ -60,20 +60,21 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ## Verify final image and contents are correct.
 RUN bootc container lint
 
-#bootlogo
+RUN dnf install -y niri swww waybar fuzzel mako foot
+
 COPY branding/watermark.png /usr/share/plymouth/themes/spinner/watermark.png
+
+COPY branding/watermark.png /usr/share/plymouth/themes/spinner/animation.png || true
+COPY branding/watermark.png /usr/share/plymouth/themes/spinner/background.png || true
 RUN plymouth-set-default-theme spinner
 RUN dracut --regenerate-all --force
-#bg
-# Copia lo sfondo
+
 RUN mkdir -p /usr/share/backgrounds/zenith_os
 COPY branding/default-wallpaper.png /usr/share/backgrounds/zenith_os/default-wallpaper.png
 
-RUN mkdir -p /etc/cosmic
-COPY branding/com.system76.CosmicBackground /etc/cosmic/com.system76.CosmicBackground
-#custom fetch
+RUN mkdir -p /etc/skel/.config/niri
+
 RUN mkdir -p /etc/fastfetch
 COPY branding/zenith_ascii.txt /etc/fastfetch/zenith_ascii.txt
 COPY branding/config.jsonc /etc/fastfetch/config.jsonc
-
 
