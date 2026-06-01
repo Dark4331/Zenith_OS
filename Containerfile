@@ -73,6 +73,7 @@ RUN mkdir -p /usr/share/backgrounds/zenith_os
 COPY branding/default-wallpaper.png /usr/share/backgrounds/zenith_os/default-wallpaper.png
 
 RUN mkdir -p /etc/skel/.config/niri
+COPY branding/config.kdl /etc/skel/.config/niri/config.kdl
 
 RUN mkdir -p /etc/fastfetch
 COPY branding/zenith_ascii.txt /etc/fastfetch/zenith_ascii.txt
