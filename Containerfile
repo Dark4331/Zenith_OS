@@ -60,18 +60,22 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ## Verify final image and contents are correct.
 RUN bootc container lint
 
+# 1. Fix Boot Logo (Plymouth)
 COPY branding/watermark.png /usr/share/plymouth/themes/spinner/watermark.png
 RUN cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/animation.png || true
 RUN cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/background.png || true
 RUN plymouth-set-default-theme spinner
 RUN dracut --regenerate-all --force
 
+# 2. Configurazione dello Sfondo Ufficiale Zenith OS
 RUN mkdir -p /usr/share/backgrounds/zenith_os
 COPY branding/default-wallpaper.png /usr/share/backgrounds/zenith_os/default-wallpaper.png
 
+# 3. Configurazione dell'Autostart di Niri
 RUN mkdir -p /etc/skel/.config/niri
 COPY branding/config.kdl /etc/skel/.config/niri/config.kdl
 
+# 4. Personalizzazione di Fastfetch
 RUN mkdir -p /etc/fastfetch
 COPY branding/zenith_ascii.txt /etc/fastfetch/zenith_ascii.txt
 COPY branding/config.jsonc /etc/fastfetch/config.jsonc
