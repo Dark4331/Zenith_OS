@@ -9,7 +9,7 @@ sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 dnf install -y fastfetch
 
 # User apps
-dnf -y install nautilus kitty mpv 
+dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor
 
 
 
