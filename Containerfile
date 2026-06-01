@@ -63,9 +63,8 @@ RUN bootc container lint
 RUN dnf install -y niri swww waybar fuzzel mako foot
 
 COPY branding/watermark.png /usr/share/plymouth/themes/spinner/watermark.png
-
-COPY branding/watermark.png /usr/share/plymouth/themes/spinner/animation.png || true
-COPY branding/watermark.png /usr/share/plymouth/themes/spinner/background.png || true
+RUN cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/animation.png || true
+RUN cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/background.png || true
 RUN plymouth-set-default-theme spinner
 RUN dracut --regenerate-all --force
 
