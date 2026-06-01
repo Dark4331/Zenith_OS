@@ -1,0 +1,29 @@
+// Configurazione minimale Zenith OS per Niri
+input {
+    keyboard {
+        xkb {
+            layout "it" // Imposta la tastiera in italiano
+        }
+    }
+}
+
+// Autostart dei servizi grafici
+spawn-on-startup "swww-daemon"
+spawn-on-startup "swww" "img" "/usr/share/backgrounds/zenith_os/default-wallpaper.png"
+spawn-on-startup "waybar"
+spawn-on-startup "mako"
+
+// Scorciatoie fondamentali
+binds {
+    // Super + Enter apre il terminale (foot è leggerissimo e ottimo su Wayland)
+    Mod+Return { spawn "foot"; }
+    
+    // Super + D apre il launcher delle applicazioni
+    Mod+D { spawn "fuzzel"; }
+    
+    // Super + Q chiude la finestra attiva
+    Mod+Q { close-window; }
+    
+    // Super + Shift + E per fare il logout
+    Mod+Shift+E { quit; }
+}
