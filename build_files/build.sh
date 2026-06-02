@@ -55,7 +55,7 @@ cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 
 # ---- BRANDING: BOOTLOGO (PLYMOUTH) ----
 # Sovrascriviamo il logo di sistema usato alla fine del boot
-cp -f /ctx/branding/logo.png /usr/share/pixmaps/system-logo-white.png
+cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
 
 # Sovrascriviamo il logo/watermark in TUTTI i temi Plymouth installati nel sistema.
 # Rimuoviamo il || true qui: se la cartella /ctx/branding non esiste, la build DEVE bloccarsi.
