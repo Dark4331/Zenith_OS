@@ -22,7 +22,7 @@ gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal kitty
 
 
 # Install Niri 
-dnf -y install niri 
+dnf -y install niri swaybg
 
 # # Install Noctalia shell
 # curl -fsSL https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo -o /etc/yum.repos.d/terra.repo
