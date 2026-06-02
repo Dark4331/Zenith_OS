@@ -41,6 +41,10 @@ RUN ln -sf ../usr/lib/os-release /etc/os-release
 
 # Copy Homebrew files from the brew image
 # And enable
+FROM scratch AS ctx
+COPY build_files /
+COPY branding /branding
+
 COPY --from=ghcr.io/ublue-os/brew:latest /system_files /
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
