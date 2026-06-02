@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM registry.gitlab.com/origami-linux/images/origami-nvidia:latest
+FROM registry.gitlab.com/origami-linux/images/origami:latest
 
 RUN sed -i '/^NAME=/d;/^PRETTY_NAME=/d;/^ID=/d;/^VARIANT_ID=/d' /usr/lib/os-release
 
