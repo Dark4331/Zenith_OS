@@ -53,6 +53,61 @@ ln -s /usr/lib/systemd/user/dms.service /etc/skel/.config/systemd/user/graphical
 mkdir -p /etc/skel/.config/niri/
 cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 
+# ---- BRANDING: BOOTLOGO (PLYMOUTH) ----
+# Sovrascriviamo il logo di sistema usato da Fedora alla fine del boot
+cp -f /ctx/branding/logo.png /usr/share/pixmaps/system-logo-white.png
+
+# Sovrascriviamo il watermark del tema grafico di default (spinner)
+mkdir -p /usr/share/plymouth/themes/spinner
+cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
+
+# Rigeneriamo l'initramfs per fare in modo che Plymouth salvi il nuovo logo all'avvio
+# (Questo passaggio è fondamentale nelle distro atomiche)
+plymouth-set-default-theme spinner --rebuild-initrd
+
+# ---- BRANDING: WALLPAPER ----
+mkdir -p /usr/share/backgrounds/zenith
+cp -f /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.png
+
+
+# ---- BRANDING: FASTFETCH ASCII ART ----
+mkdir -p /usr/share/zenith
+cp -f /ctx/branding/ascii-logo.txt /usr/share/zenith/ascii-logo.txt
+
+# Generiamo la configurazione globale per tutti gli utenti
+mkdir -p /etc/fastfetch
+cat > /etc/fastfetch/config.jsonc << 'EOF'
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "/usr/share/zenith/ascii-logo.txt",
+        "padding": {
+            "right": 2
+        }
+    },
+    "modules": [
+        "title",
+        "separator",
+        "os",
+        "host",
+        "kernel",
+        "uptime",
+        "packages",
+        "shell",
+        "display",
+        "de",
+        "wm",
+        "terminal",
+        "cpu",
+        "gpu",
+        "memory"
+    ]
+}
+EOF
+
+
+
+
 # DEV packages
 # cargo evtest git input-remapper libevdev-devel libinput-utils python3-devel
 
