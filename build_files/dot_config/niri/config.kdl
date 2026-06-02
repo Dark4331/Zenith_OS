@@ -276,7 +276,7 @@ layout {
 spawn-at-startup "swaybg" "-i" "/usr/share/backgrounds/zenith/default.jpg" "-m" "fill"
 
 spawn-sh-at-startup "lxpolkit"
-spawn-sh-at-startup "SSH_ASKPASS=/usr/libexec/openssh/ssh-askpass SSH_ASKPASS_REQUIRE=force ssh-add /home/morro/.ssh/id_rsa < /dev/null"
+spawn-sh-at-startup "SSH_ASKPASS=/usr/libexec/openssh/ssh-askpass SSH_ASKPASS_REQUIRE=force ssh-add ~/.ssh/id_rsa < /dev/null"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
