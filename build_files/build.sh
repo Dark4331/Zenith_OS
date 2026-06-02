@@ -55,10 +55,10 @@ cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 
 # ---- BRANDING: BOOTLOGO (PLYMOUTH) ----
 # Sovrascriviamo il logo di sistema usato alla fine del boot
-cp -f /ctx/branding/logo.png /usr/share/pixmaps/system-logo-white.png || true
+cp -f /ctx/branding/logo.png /usr/share/pixmaps/system-logo-white.png
 
 # Sovrascriviamo il logo/watermark in TUTTI i temi Plymouth installati nel sistema.
-# Questo cambierà la barchetta di Origami con il tuo logo Zenith senza far crashare la build.
+# Rimuoviamo il || true qui: se la cartella /ctx/branding non esiste, la build DEVE bloccarsi.
 for tema in /usr/share/plymouth/themes/*/; do
     if [ -d "$tema" ]; then
         cp -f /ctx/branding/logo.png "${tema}watermark.png" || true
@@ -67,16 +67,14 @@ for tema in /usr/share/plymouth/themes/*/; do
 done
 
 # ---- BRANDING: WALLPAPER ----
-# Creiamo la directory e copiamo lo sfondo globale
 mkdir -p /usr/share/backgrounds/zenith
 cp -f /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.png
 
 # ---- BRANDING: FASTFETCH ASCII ART ----
-# Creiamo la cartella di sistema per il tuo logo testuale
 mkdir -p /usr/share/zenith
 cp -f /ctx/branding/ascii-logo.txt /usr/share/zenith/ascii-logo.txt
 
-# Generiamo la configurazione globale per tutti gli utenti al primo boot
+# Generiamo la configurazione globale per tutti gli utenti
 mkdir -p /etc/fastfetch
 cat > /etc/fastfetch/config.jsonc << 'EOF'
 {
@@ -107,14 +105,8 @@ cat > /etc/fastfetch/config.jsonc << 'EOF'
 }
 EOF
 
-# ---- RIGENERAZIONE INITRAMFS GENERICA (SICURA) ----
-# Invece del comando plymouth che crasha, usiamo dracut in modalità forzata (se supportato), 
-# altrimenti proseguiamo senza interrompere la build.
+# ---- OPERAZIONI DI SISTEMA (Mantieni pure || true qui per sicurezza nel container) ----
 dracut --regenerate-all --force || true
-
-# DEV packages
-# cargo evtest git input-remapper libevdev-devel libinput-utils python3-devel
-# dnf -y install bitwarden-cli 
 
 #### Enable podman
 systemctl enable podman.socket
@@ -126,7 +118,6 @@ sudo mv /etc/profile.d/origami-aliases.sh /etc/profile.d/origami-aliases.sh.bak 
 dnf -y remove cosmic-comp cosmic-initial-setup cosmic-settings cosmic-settings-daemon cosmic-store waybar
 
 ## CLEAN UP
-# Pulizia finale (ora verrà eseguita correttamente!)
 dnf5 -y clean all
 rm -rf /run/dnf /run/selinux-policy
 rm -rf /var/lib/dnf
