@@ -39,7 +39,7 @@ dnf -y install quickshell dms greetd dms-greeter --allowerasing
 mkdir -p /etc/greetd/
 cat > /etc/greetd/config.toml << EOF
 [terminal]
-vt = 1
+vt = 2
 [default_session]
 user = "greeter"
 command = "dms-greeter --command niri"
