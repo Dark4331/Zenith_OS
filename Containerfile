@@ -41,9 +41,7 @@ RUN ln -sf ../usr/lib/os-release /etc/os-release
 
 # Copy Homebrew files from the brew image
 # And enable
-FROM scratch AS ctx
-COPY build_files /
-COPY branding /branding
+
 
 COPY --from=ghcr.io/ublue-os/brew:latest /system_files /
 RUN --mount=type=cache,dst=/var/cache \
@@ -59,7 +57,11 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
-    
+
+FROM scratch AS ctx
+COPY build_files /
+COPY branding /branding
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
