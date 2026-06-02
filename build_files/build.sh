@@ -53,9 +53,12 @@ ln -s /usr/lib/systemd/user/dms.service /etc/skel/.config/systemd/user/graphical
 mkdir -p /etc/skel/.config/niri/
 cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 
-# ---- BRANDING: BOOTLOGO (PLYMOUTH) ----
-# Sovrascriviamo il logo di sistema usato alla fine del boot
+
+mkdir -p /etc/fastfetch
+mkdir -p /usr/share/backgrounds/zenith
 cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
+cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
+cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 
 # Sovrascriviamo il logo/watermark in TUTTI i temi Plymouth installati nel sistema.
 # Rimuoviamo il || true qui: se la cartella /ctx/branding non esiste, la build DEVE bloccarsi.
