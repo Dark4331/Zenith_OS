@@ -47,7 +47,7 @@ cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 # ---- BRANDING: SETUP ----
 mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
-cp /ctx/branding/logo.png /usr/share/plymouth/spinner/watermark.png
+cp /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 
