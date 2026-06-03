@@ -18,6 +18,7 @@ on:
   pull_request:
     branches:
       - main
+      - unstable
     paths:
       - './disk_config/disk.toml'
       - './disk_config/iso.toml'
@@ -59,6 +60,14 @@ jobs:
           echo "DISK_TYPE=${DISK_TYPE}" >> ${GITHUB_ENV}
           echo "USER_UID=${USER_UID}" >> ${GITHUB_ENV}
           echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
+          BRANCH_NAME="${{ github.base_ref || github.ref_name }}"
+          
+          # Se siamo su main usiamo 'latest', altrimenti usiamo il nome della branch (es. 'unstable')
+          if [ "$BRANCH_NAME" = "main" ]; then
+            echo "DEFAULT_TAG=latest" >> ${GITHUB_ENV}
+          else
+            echo "DEFAULT_TAG=$BRANCH_NAME" >> ${GITHUB_ENV}
+          fi
 
       - name: Install dependencies
         if: inputs.platform == 'arm64'
