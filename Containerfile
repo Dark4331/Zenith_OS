@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM registry.gitlab.com/origami-linux/images/origami-nvidia:latest
+FROM registry.gitlab.com/origami-linux/images/origami:latest
 
 RUN sed -i '/^NAME=/d;/^PRETTY_NAME=/d;/^ID=/d;/^VARIANT_ID=/d' /usr/lib/os-release
 
@@ -41,6 +41,8 @@ RUN ln -sf ../usr/lib/os-release /etc/os-release
 
 # Copy Homebrew files from the brew image
 # And enable
+
+
 COPY --from=ghcr.io/ublue-os/brew:latest /system_files /
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -55,8 +57,11 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
-    
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
 
+FROM scratch AS ctx
+COPY build_files /
+COPY branding /branding

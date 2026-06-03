@@ -85,7 +85,7 @@ input {
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "1920x1080@120.030"
+    // mode "1920x1080"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
     scale 2
@@ -273,9 +273,10 @@ layout {
 // spawn-at-startup "waybar"
 // spawn-sh-at-startup "qs -c noctalia-shell"
 // spawn-at-startup "dms run"
+spawn-at-startup "swaybg" "-i" "/usr/share/backgrounds/zenith/default.jpg" "-m" "fill"
 
 spawn-sh-at-startup "lxpolkit"
-spawn-sh-at-startup "SSH_ASKPASS=/usr/libexec/openssh/ssh-askpass SSH_ASKPASS_REQUIRE=force ssh-add /home/morro/.ssh/id_rsa < /dev/null"
+spawn-sh-at-startup "SSH_ASKPASS=/usr/libexec/openssh/ssh-askpass SSH_ASKPASS_REQUIRE=force ssh-add ~/.ssh/id_rsa < /dev/null"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"

@@ -9,9 +9,7 @@ sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 dnf install -y fastfetch
 
 # User apps
-dnf -y install nautilus kitty mpv 
-
-
+dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor
 
 # Nautilus open any terminal extension
 curl -Lo /etc/yum.repos.d/nautilus-open-any-terminal.repo \
@@ -20,22 +18,15 @@ dnf install -y nautilus-open-any-terminal
 glib-compile-schemas /usr/share/glib-2.0/schemas
 gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal kitty
 
-
 # Install Niri 
-dnf -y install niri 
-
-# # Install Noctalia shell
-# curl -fsSL https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo -o /etc/yum.repos.d/terra.repo
-# dnf -y install terra-release
-# dnf -y install noctalia-shell 
-# # ABILITARE LE NOTIFICHE: systemctl --user enable --now swaync.service
+dnf -y install niri swaybg
 
 # Install Dank Linux shell
-sudo curl --output-dir "/etc/yum.repos.d/" \
+curl --output-dir "/etc/yum.repos.d/" \
   --remote-name "https://copr.fedorainfracloud.org/coprs/avengemedia/dms/repo/fedora-$(rpm -E %fedora)/avengemedia-dms-fedora-$(rpm -E %fedora).repo"
 dnf -y install quickshell dms greetd dms-greeter --allowerasing 
-#
-# Install greetd login manager with dank configuration (still needs some work)
+
+# Install greetd login manager
 mkdir -p /etc/greetd/
 cat > /etc/greetd/config.toml << EOF
 [terminal]
@@ -53,24 +44,26 @@ ln -s /usr/lib/systemd/user/dms.service /etc/skel/.config/systemd/user/graphical
 mkdir -p /etc/skel/.config/niri/
 cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 
-# DEV packages
-# cargo evtest git input-remapper libevdev-devel libinput-utils python3-devel
+# ---- BRANDING: SETUP ----
+mkdir -p /etc/fastfetch
+mkdir -p /usr/share/backgrounds/zenith
+cp /ctx/branding/logo.png /usr/share/plymouth/spinner/watermark.png
+cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
+cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 
-# dnf -y install bitwarden-cli 
+# Regenerate dracut for boot changes
+dracut --regenerate-all --force || true
 
-#### Enable podman
-
+# Enable podman socket
 systemctl enable podman.socket
 
 # Disable Origami tips
-
-sudo mv /etc/profile.d/origami-aliases.sh /etc/profile.d/origami-aliases.sh.bak
+mv /etc/profile.d/origami-aliases.sh /etc/profile.d/origami-aliases.sh.bak || true
 
 # Remove COSMIC shell and waybar
-dnf -y remove cosmic-comp cosmic-initial-setup cosmic-settings cosmic-settings-daemon cosmic-store  waybar
+dnf -y remove cosmic-comp cosmic-initial-setup cosmic-settings cosmic-settings-daemon cosmic-store waybar
 
-## CLEAN UP
-# Clean up dnf cache to reduce image size
+# Clean up DNF cache to reduce image size
 dnf5 -y clean all
 rm -rf /run/dnf /run/selinux-policy
 rm -rf /var/lib/dnf
