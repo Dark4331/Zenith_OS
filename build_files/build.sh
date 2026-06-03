@@ -49,6 +49,7 @@ mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
 cp /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
+cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 
