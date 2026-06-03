@@ -1,6 +1,7 @@
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY build_files /
+COPY branding /branding
 
 # Base Image
 FROM registry.gitlab.com/origami-linux/images/origami:latest
@@ -62,6 +63,3 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ## Verify final image and contents are correct.
 RUN bootc container lint
 
-FROM scratch AS ctx
-COPY build_files /
-COPY branding /branding
