@@ -47,47 +47,9 @@ cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
 # ---- BRANDING: SETUP ----
 mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
-cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
+cp /ctx/branding/logo.png /usr/share/plymouth/spinner/watermark.png
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
-
-# ---- BRANDING: PLYMOUTH LOGOS & WATERMARKS ----
-for tema in /usr/share/plymouth/themes/*/; do
-    if [ -d "$tema" ]; then
-        cp -f /ctx/branding/logo.png "${tema}watermark.png" || true
-        cp -f /ctx/branding/logo.png "${tema}logo.png" || true
-    fi
-done
-
-# ---- BRANDING: FASTFETCH GLOBAL CONFIG ----
-cat > /etc/fastfetch/config.jsonc << 'EOF'
-{
-    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-    "logo": {
-        "source": "/etc/fastfetch/zenith_ascii.txt",
-        "padding": {
-            "right": 2
-        }
-    },
-    "modules": [
-        "title",
-        "separator",
-        "os",
-        "host",
-        "kernel",
-        "uptime",
-        "packages",
-        "shell",
-        "display",
-        "de",
-        "wm",
-        "terminal",
-        "cpu",
-        "gpu",
-        "memory"
-    ]
-}
-EOF
 
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
