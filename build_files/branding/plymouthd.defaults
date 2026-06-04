@@ -1,0 +1,5 @@
+[daemon]
+Theme=spinner
+ShowDelay=0
+DeviceTimeout=8
+UseSimpledrmNoluks=1
