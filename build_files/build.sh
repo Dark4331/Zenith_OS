@@ -42,7 +42,7 @@ systemctl enable --force greetd.service
 mkdir -p /etc/skel/.config/systemd/user/graphical-session.target.wants
 ln -s /usr/lib/systemd/user/dms.service /etc/skel/.config/systemd/user/graphical-session.target.wants/
 mkdir -p /etc/skel/.config/niri/
-cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/
+cp -rf /ctx/dot_config/niri/config.kdl /etc/skel/.config/niri/config.kdl
 
 mkdir -p /etc/skel/.config/kitty/
 cp -rf /ctx/dot_config/kitty/dank-theme.conf /etc/skel/.config/kitty/dank-theme.conf
@@ -57,8 +57,6 @@ cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
 
-mkdir -p /etc/tse
-cp /ctx/dot_config/kitty/dank-theme.conf /etc/tse/dank-thems.txt
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 
 
