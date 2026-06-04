@@ -53,6 +53,7 @@ cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
+cp -rf /ctx/dot_config/kitty/dank-theme.conf /etc/skel/.config/kitty/
 mkdir -p /etc/tse
 cp /ctx/dot_config/kitty/dank-theme.conf /etc/tse/dank-thems.txt
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
