@@ -54,6 +54,7 @@ cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
 
+sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
 
