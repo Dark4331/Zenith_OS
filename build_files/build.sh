@@ -6,10 +6,10 @@ set -ouex pipefail
 sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 
 ## System apps
-dnf install -y fastfetch
+dnf install -y fastfetch 
 
 # User apps
-dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor
+dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor localsend
 
 # Nautilus open any terminal extension
 curl -Lo /etc/yum.repos.d/nautilus-open-any-terminal.repo \
