@@ -24,8 +24,8 @@ on:
       - './.github/workflows/build-disk.yml'
 
 env:
-  IMAGE_NAME: ${{ github.event.repository.name }} # output of build.yml, keep in sync
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
+  IMAGE_NAME: ${{ github.event.repository.name }}
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
   DEFAULT_TAG: "latest"
   BIB_IMAGE: "quay.io/centos-bootc/bootc-image-builder:latest"
 
@@ -34,13 +34,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build disk images
+  build-qcow2:
+    name: Build QCOW2 image
     runs-on: ${{ inputs.platform == 'amd64' && 'ubuntu-24.04' || 'ubuntu-24.04-arm' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        disk-type: ["qcow2", "anaconda-iso"]
     permissions:
       contents: read
       packages: read
@@ -51,12 +47,8 @@ jobs:
         run: |
           USER_UID=$(id -u)
           USER_GID=$(id -g)
-          # Concatenate the types with a hyphen
-          DISK_TYPE=$(echo "${{ matrix.disk-type }}" | tr ' ' '-')
-          # Lowercase the image uri
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
-          echo "DISK_TYPE=${DISK_TYPE}" >> ${GITHUB_ENV}
           echo "USER_UID=${USER_UID}" >> ${GITHUB_ENV}
           echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
 
@@ -65,40 +57,56 @@ jobs:
         run: |
           set -x
           sudo apt update -y
-          sudo apt install -y \
-            podman
+          sudo apt install -y podman
 
       - name: Maximize build space
         if: inputs.platform != 'arm64'
-        uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e # v9
-        with:
-          remove-codeql: true
+        uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Build disk images
-        id: build
+      - name: Check disk space
+        run: |
+          echo "=== Disk Space Before Build ==="
+          df -h
+          df -B1 / | tail -1 | awk '{print "Available: " $4 " bytes (" $4/1024/1024/1024 " GB)"}'
+
+      - name: Build QCOW2 image
+        id: build-qcow2
         uses: osbuild/bootc-image-builder-action@main
         with:
           builder-image: ${{ env.BIB_IMAGE }}
-          config-file: ${{ matrix.disk-type == 'anaconda-iso' && './disk_config/iso.toml' || './disk_config/disk.toml' }}
+          config-file: './disk_config/disk.toml'
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
-          types: ${{ matrix.disk-type }}
+          types: qcow2
           additional-args: --use-librepo=True --rootfs ext4
 
-      - name: Upload disk images and Checksum to Job Artifacts
+      - name: Check build output
+        if: always()
+        run: |
+          echo "=== Build Output Directory ==="
+          if [ -d "${{ steps.build-qcow2.outputs.output-directory }}" ]; then
+            ls -lah "${{ steps.build-qcow2.outputs.output-directory }}"
+            file "${{ steps.build-qcow2.outputs.output-directory }}"/*
+          else
+            echo "❌ Output directory not found"
+            exit 1
+          fi
+
+      - name: Upload QCOW2 image to Job Artifacts
         if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          path: ${{ steps.build.outputs.output-directory }}
+          name: qcow2-image
+          path: ${{ steps.build-qcow2.outputs.output-directory }}
           if-no-files-found: error
           retention-days: 0
           compression-level: 0
           overwrite: true
-      
-      - name: Upload to S3
+
+      - name: Upload QCOW2 to S3
         if: inputs.upload-to-s3 == true && github.event_name != 'pull_request'
         shell: bash
         env:
@@ -108,8 +116,96 @@ jobs:
           RCLONE_CONFIG_S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
           RCLONE_CONFIG_S3_REGION: ${{ secrets.S3_REGION }}
           RCLONE_CONFIG_S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
-          SOURCE_DIR: ${{ steps.build.outputs.output-directory }}
+          SOURCE_DIR: ${{ steps.build-qcow2.outputs.output-directory }}
         run: |
           sudo apt-get update
           sudo apt-get install -y rclone
-          rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}
+          rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}/qcow2/
+
+  build-iso:
+    name: Build Anaconda ISO image
+    runs-on: ${{ inputs.platform == 'amd64' && 'ubuntu-24.04' || 'ubuntu-24.04-arm' }}
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+
+    steps:
+      - name: Prepare environment
+        run: |
+          USER_UID=$(id -u)
+          USER_GID=$(id -g)
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+          echo "USER_UID=${USER_UID}" >> ${GITHUB_ENV}
+          echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
+
+      - name: Install dependencies
+        if: inputs.platform == 'arm64'
+        run: |
+          set -x
+          sudo apt update -y
+          sudo apt install -y podman
+
+      - name: Maximize build space
+        if: inputs.platform != 'arm64'
+        uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Check disk space
+        run: |
+          echo "=== Disk Space Before Build ==="
+          df -h
+          df -B1 / | tail -1 | awk '{print "Available: " $4 " bytes (" $4/1024/1024/1024 " GB)"}'
+
+      - name: Build Anaconda ISO image
+        id: build-iso
+        uses: osbuild/bootc-image-builder-action@main
+        with:
+          builder-image: ${{ env.BIB_IMAGE }}
+          config-file: './disk_config/iso.toml'
+          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
+          chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
+          types: anaconda-iso
+          additional-args: --use-librepo=True --rootfs ext4
+
+      - name: Check build output
+        if: always()
+        run: |
+          echo "=== Build Output Directory ==="
+          if [ -d "${{ steps.build-iso.outputs.output-directory }}" ]; then
+            ls -lah "${{ steps.build-iso.outputs.output-directory }}"
+            file "${{ steps.build-iso.outputs.output-directory }}"/*
+          else
+            echo "❌ Output directory not found"
+            exit 1
+          fi
+
+      - name: Upload Anaconda ISO image to Job Artifacts
+        if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: anaconda-iso-image
+          path: ${{ steps.build-iso.outputs.output-directory }}
+          if-no-files-found: error
+          retention-days: 0
+          compression-level: 0
+          overwrite: true
+
+      - name: Upload ISO to S3
+        if: inputs.upload-to-s3 == true && github.event_name != 'pull_request'
+        shell: bash
+        env:
+          RCLONE_CONFIG_S3_TYPE: s3
+          RCLONE_CONFIG_S3_PROVIDER: ${{ secrets.S3_PROVIDER }}
+          RCLONE_CONFIG_S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_S3_REGION: ${{ secrets.S3_REGION }}
+          RCLONE_CONFIG_S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+          SOURCE_DIR: ${{ steps.build-iso.outputs.output-directory }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rclone
+          rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}/iso/
