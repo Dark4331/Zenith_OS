@@ -52,6 +52,7 @@ cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
 cp /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
+cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
 
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
