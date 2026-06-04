@@ -55,6 +55,7 @@ cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
 mkdir -p /etc/tse
 cp /ctx/dot_config/kitty/dank-theme.conf /etc/tse/dank-thems.txt
+cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 
 
 sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
