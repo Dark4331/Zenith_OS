@@ -7,7 +7,8 @@ sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 
 ## System apps
 dnf install -y fastfetch 
-
+dnf install -y flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 # User apps
 dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor 
 
