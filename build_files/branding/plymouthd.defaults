@@ -1,5 +1,5 @@
 [daemon]
-Theme=spinner
+Theme=hexagon
 ShowDelay=0
 DeviceTimeout=8
 UseSimpledrmNoluks=1
