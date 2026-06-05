@@ -6,10 +6,10 @@ set -ouex pipefail
 sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 
 ## System apps
-dnf install -y fastfetch 
+dnf install -y fastfetch localsend
 
 # User apps
-dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor localsend
+dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor 
 
 # Nautilus open any terminal extension
 curl -Lo /etc/yum.repos.d/nautilus-open-any-terminal.repo \
@@ -52,6 +52,7 @@ mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
 cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
+cp -f /ctx/branding/logo.png /usr/share/quickshell/dms/assets/danklogonormal.svg
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
