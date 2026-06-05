@@ -61,6 +61,18 @@ cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
+#-*--------
+mkdir -p /etc/dracut.conf.d
+echo 'add_drivers+=" vboxvideo "' > /etc/dracut.conf.d/vbox.conf
+#-----------
+mkdir -p /etc/plymouth
+cat > /etc/plymouth/plymouthd.conf << EOF
+[Daemon]
+Theme=hexagon
+ShowDelay=0
+DeviceTimeout=8
+EOF
+#---------
 
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 mkdir -p /usr/share/plymouth/themes/hexagon/
