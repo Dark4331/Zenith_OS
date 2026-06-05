@@ -6,7 +6,7 @@ set -ouex pipefail
 sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 
 ## System apps
-dnf install -y fastfetch localsend
+dnf install -y fastfetch 
 
 # User apps
 dnf -y install nautilus kitty mpv gnome-terminal gnome-system-monitor 
