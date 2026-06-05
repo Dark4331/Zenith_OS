@@ -59,7 +59,8 @@ cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
 
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
-cp -f /ctx/hexagon/. /usr/share/plymouth/themes/
+mkdir -p /usr/share/plymouth/themes/hexagon/
+cp -rf /ctx/hexagon/. /usr/share/plymouth/themes/hexagon/
 
 sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 # Regenerate dracut for boot changes
