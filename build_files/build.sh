@@ -63,6 +63,7 @@ cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 mkdir -p /usr/share/plymouth/themes/hexagon/
 cp -rf /ctx/hexagon/. /usr/share/plymouth/themes/hexagon/
+ln -sf /usr/share/plymouth/themes/hexagon/hexagon.plymouth /usr/share/plymouth/themes/default.plymouth
 
 sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 # Regenerate dracut for boot changes
