@@ -82,7 +82,7 @@ ln -sf /usr/share/plymouth/themes/hexagon/hexagon.plymouth /usr/share/plymouth/t
 sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
-
+echo 'GRUB_DISABLE_OS_PROBER="true"' >> /etc/default/grub
 # Enable podman socket
 systemctl enable podman.socket
 
