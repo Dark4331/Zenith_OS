@@ -36,7 +36,9 @@ Name=BGRT
 Description=Jimmac's spinner theme using the ACPI BGRT graphics as background
 ModuleName=script
 
-
+[script]
+ImageDir=/usr/share/plymouth/themes/hexagon
+ScriptFile=/usr/share/plymouth/themes/hexagon/hexagon.script
 
 [boot-up]
 UseEndAnimation=false
