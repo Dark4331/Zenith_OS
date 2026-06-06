@@ -55,9 +55,9 @@ mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
 cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
-cp -f /ctx/branding/logo.png /usr/share/quickshell/dms/assets/danklogonormal.svg
-cp -f /ctx/branding/logo.png /usr/share/quickshell/dms-greeter/assets/danklogonormal.svg
-cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
+cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/quickshell/dms/assets/danklogonormal.svg
+cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/quickshell/dms-greeter/assets/danklogonormal.svg
+cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
