@@ -53,7 +53,6 @@ cp -rf /ctx/dot_config/kitty/dank-theme.conf /etc/skel/.config/kitty/dank-theme.
 # ---- BRANDING: SETUP ----
 mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
-cp -f /ctx/branding/mkinitcpio.conf /etc/mkinitcpio.conf
 cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
 cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/quickshell/dms/assets/danklogonormal.svg
@@ -76,7 +75,6 @@ mkdir -p /usr/share/plymouth/themes/hexagon/
 cp -rf /ctx/hexagon/. /usr/share/plymouth/themes/hexagon/
 ln -sf /usr/share/plymouth/themes/hexagon/hexagon.plymouth /usr/share/plymouth/themes/default.plymouth
 
-sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
 
