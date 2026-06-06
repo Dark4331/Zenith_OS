@@ -73,6 +73,7 @@ ShowDelay=0
 DeviceTimeout=8
 EOF
 #---------
+mkdir -p /usr/share/plymouth/themes/bgrt/
 cp -f /ctx/branding/bgrt.plymouth /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 mkdir -p /usr/share/plymouth/themes/hexagon/
