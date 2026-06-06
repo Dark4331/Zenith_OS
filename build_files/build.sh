@@ -66,12 +66,7 @@ mkdir -p /etc/dracut.conf.d
 echo 'add_drivers+=" vboxvideo "' > /etc/dracut.conf.d/vbox.conf
 #-----------
 mkdir -p /etc/plymouth
-cat > /etc/plymouth/plymouthd.conf << EOF
-[Daemon]
-Theme=hexagon
-ShowDelay=0
-DeviceTimeout=8
-EOF
+echo -e "[Daemon]\nTheme=hexagon\nShowDelay=0" > /etc/plymouth/plymouthd.conf
 #---------
 mkdir -p /usr/share/plymouth/themes/bgrt/
 cp -f /ctx/branding/bgrt.plymouth /usr/share/plymouth/themes/bgrt/bgrt.plymouth
