@@ -1,6 +1,6 @@
-#[daemon]
-#Theme=hexagon
-#ShowDelay=0
-#DeviceTimeout=8
-#UseSimpledrmNoluks=1
+[daemon]
+Theme=hexagon
+ShowDelay=0
+DeviceTimeout=8
+UseSimpledrmNoluks=1
 #------new theme
