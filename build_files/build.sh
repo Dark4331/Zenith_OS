@@ -53,6 +53,7 @@ cp -rf /ctx/dot_config/kitty/dank-theme.conf /etc/skel/.config/kitty/dank-theme.
 # ---- BRANDING: SETUP ----
 mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
+cp -f /ctx/branding/mkinitcpio.conf /etc/mkinitcpio.conf
 cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
 cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/quickshell/dms/assets/danklogonormal.svg
