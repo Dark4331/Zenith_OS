@@ -54,7 +54,6 @@ cp -rf /ctx/dot_config/kitty/dank-theme.conf /etc/skel/.config/kitty/dank-theme.
 
 # ---- BRANDING: SETUP ----
 mkdir -p /etc/fastfetch
-mkdir -p /etc/default/grub
 mkdir -p /usr/share/backgrounds/zenith
 cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
@@ -87,13 +86,14 @@ systemctl enable plymouth-quit.service
 systemctl enable plymouth-quit-wait.service
 plymouth-set-default-theme hexagon
 
-# Ensure splash in kernel parameters
-sed -i 's/GRUB_CMDLINE_LINUX="/GRUB_CMDLINE_LINUX="splash /' /etc/default/grub
-
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
 
+# Ensure splash in kernel parameters
 echo 'GRUB_DISABLE_OS_PROBER="true"' >> /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX="/GRUB_CMDLINE_LINUX="splash /' /etc/default/grub
+
+
 # Enable podman socket
 systemctl enable podman.socket
 
