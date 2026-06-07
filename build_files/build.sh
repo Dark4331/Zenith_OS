@@ -29,6 +29,8 @@ curl --output-dir "/etc/yum.repos.d/" \
   --remote-name "https://copr.fedorainfracloud.org/coprs/avengemedia/dms/repo/fedora-$(rpm -E %fedora)/avengemedia-dms-fedora-$(rpm -E %fedora).repo"
 dnf -y install quickshell dms greetd dms-greeter --allowerasing 
 
+
+
 # Install greetd login manager
 mkdir -p /etc/greetd/
 cat > /etc/greetd/config.toml << EOF
@@ -55,9 +57,9 @@ mkdir -p /etc/fastfetch
 mkdir -p /usr/share/backgrounds/zenith
 cp -f /ctx/branding/logo.png /usr/share/plymouth/themes/spinner/watermark.png
 cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.png
-cp -f /ctx/branding/logo.png /usr/share/quickshell/dms/assets/danklogonormal.svg
-cp -f /ctx/branding/logo.png /usr/share/quickshell/dms-greeter/assets/danklogonormal.svg
-cp -f /ctx/branding/logo.png /usr/share/pixmaps/origami-logo.svg
+cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/quickshell/dms/assets/danklogonormal.svg
+cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/quickshell/dms-greeter/assets/danklogonormal.svg
+cp -f /ctx/branding/bootlogo_zenith.svg /usr/share/pixmaps/origami-logo.svg
 cp /ctx/branding/wallpaper.png /usr/share/backgrounds/zenith/default.jpg
 cp /ctx/branding/ascii-logo.txt /etc/fastfetch/zenith_ascii.txt
 cp /ctx/branding/config.jsonc /etc/fastfetch/config.jsonc
@@ -66,23 +68,32 @@ mkdir -p /etc/dracut.conf.d
 echo 'add_drivers+=" vboxvideo "' > /etc/dracut.conf.d/vbox.conf
 #-----------
 mkdir -p /etc/plymouth
-cat > /etc/plymouth/plymouthd.conf << EOF
-[Daemon]
-Theme=hexagon
-ShowDelay=0
-DeviceTimeout=8
-EOF
+echo -e "[Daemon]\nTheme=hexagon\nShowDelay=0" > /etc/plymouth/plymouthd.conf
 #---------
-
+mkdir -p /usr/share/plymouth/themes/bgrt/
+cp -f /ctx/branding/bgrt.plymouth /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 mkdir -p /usr/share/plymouth/themes/hexagon/
+cp -rf /ctx/hexagon/hexagon.plymouth /usr/share/plymouth/themes/hexagon/hexagon.plymouth
 cp -rf /ctx/hexagon/. /usr/share/plymouth/themes/hexagon/
 ln -sf /usr/share/plymouth/themes/hexagon/hexagon.plymouth /usr/share/plymouth/themes/default.plymouth
 
-sed -i 's/auto-mode/manual/g' /usr/share/plymouth/themes/bgrt/bgrt.plymouth
+# Plymouth early boot configuration
+mkdir -p /etc/dracut.conf.d
+echo 'add_dracutmodules+=" plymouth "' > /etc/dracut.conf.d/plymouth.conf
+systemctl enable plymouth-start.service
+systemctl enable plymouth-quit.service
+systemctl enable plymouth-quit-wait.service
+plymouth-set-default-theme hexagon
+
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
+
+# Ensure splash in kernel parameters
 echo 'GRUB_DISABLE_OS_PROBER="true"' >> /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX="/GRUB_CMDLINE_LINUX="splash /' /etc/default/grub
+
+
 # Enable podman socket
 systemctl enable podman.socket
 
