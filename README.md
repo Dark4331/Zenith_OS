@@ -1,6 +1,6 @@
 <img width="1376" height="768" alt="zenith_OS" src="https://github.com/user-attachments/assets/3fda76db-dd83-4a03-90b7-718a6321c7be" />
 
-# 🌌 Zenith OS
+# 🌌 Zenith OS [![Build container image](https://github.com/Dark4331/Zenith_OS/actions/workflows/build.yml/badge.svg)](https://github.com/Dark4331/Zenith_OS/actions/workflows/build.yml)
 
 Zenith OS is an immutable, containerized operating system based on **Fedora Bootc** and derived from **Origami Linux**. It is engineered to deliver maximum stability, atomic system updates, and native out-of-the-box support for **NVIDIA** GPUs.
 
