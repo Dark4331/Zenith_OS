@@ -83,6 +83,7 @@ mkdir -p /usr/share/plymouth/themes/bgrt/
 cp -f /ctx/branding/bgrt.plymouth /usr/share/plymouth/themes/bgrt/bgrt.plymouth
 cp -f /ctx/branding/plymouthd.defaults /usr/share/plymouth/plymouthd.defaults
 mkdir -p /usr/share/plymouth/themes/hexagon/
+cp -rf /ctx/hexagon/hexagon.plymouth /usr/share/plymouth/themes/hexagon/hexagon.plymouth
 cp -rf /ctx/hexagon/. /usr/share/plymouth/themes/hexagon/
 ln -sf /usr/share/plymouth/themes/hexagon/hexagon.plymouth /usr/share/plymouth/themes/default.plymouth
 
