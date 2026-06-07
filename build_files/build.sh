@@ -29,16 +29,7 @@ curl --output-dir "/etc/yum.repos.d/" \
   --remote-name "https://copr.fedorainfracloud.org/coprs/avengemedia/dms/repo/fedora-$(rpm -E %fedora)/avengemedia-dms-fedora-$(rpm -E %fedora).repo"
 dnf -y install quickshell dms greetd dms-greeter --allowerasing 
 
-# Plymouth early boot configuration
-mkdir -p /etc/dracut.conf.d
-echo 'add_dracutmodules+=" plymouth "' > /etc/dracut.conf.d/plymouth.conf
-systemctl enable plymouth-start.service
-systemctl enable plymouth-quit.service
-systemctl enable plymouth-quit-wait.service
-plymouth-set-default-theme hexagon
 
-# Ensure splash in kernel parameters
-sed -i 's/GRUB_CMDLINE_LINUX="/GRUB_CMDLINE_LINUX="splash /' /etc/default/grub
 
 # Install greetd login manager
 mkdir -p /etc/greetd/
