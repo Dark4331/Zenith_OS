@@ -86,6 +86,17 @@ mkdir -p /usr/share/plymouth/themes/hexagon/
 cp -rf /ctx/hexagon/. /usr/share/plymouth/themes/hexagon/
 ln -sf /usr/share/plymouth/themes/hexagon/hexagon.plymouth /usr/share/plymouth/themes/default.plymouth
 
+# Plymouth early boot configuration
+mkdir -p /etc/dracut.conf.d
+echo 'add_dracutmodules+=" plymouth "' > /etc/dracut.conf.d/plymouth.conf
+systemctl enable plymouth-start.service
+systemctl enable plymouth-quit.service
+systemctl enable plymouth-quit-wait.service
+plymouth-set-default-theme hexagon
+
+# Ensure splash in kernel parameters
+sed -i 's/GRUB_CMDLINE_LINUX="/GRUB_CMDLINE_LINUX="splash /' /etc/default/grub
+
 # Regenerate dracut for boot changes
 dracut --regenerate-all --force || true
 
